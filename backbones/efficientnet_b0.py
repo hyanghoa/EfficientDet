@@ -7,7 +7,8 @@ class EfficientNetB0(tf.keras.Model):
         super(EfficientNetB0, self).__init__()
 
     def call(self, input_tensor, training=False):
-        x = tf.keras.layers.Conv2D(filters=32, kernel_size=(3, 3), padding="same", activation="relu")(input_tensor)  
+        x = tf.keras.layers.Conv2D(filters=32, kernel_size=(3, 3), padding="same", activation="relu")(input_tensor)
+        x = tf.keras.layers.BatchNormalization()(x)
         x = tf.keras.layers.MaxPool2D(padding="same")(x)
         x = self.mbconv(x, num_channels=32, output_channels=16, kernel_size=3)
         x = self.mbconv(x, num_channels=16, output_channels=24, kernel_size=3)
@@ -29,10 +30,16 @@ class EfficientNetB0(tf.keras.Model):
             x = self.mbconv(x, num_channels=192, output_channels=192, kernel_size=5)
         x = self.mbconv(x, num_channels=192, output_channels=320, kernel_size=3)
         return x
-    
+
     def mbconv(self, inputs, num_channels, output_channels, kernel_size):
-        x = tf.keras.layers.Conv2D(filters=num_channels, kernel_size=1, padding="same", activation="relu")(inputs)
-        x = tf.keras.layers.Conv2D(filters=num_channels, kernel_size=kernel_size, padding="same", activation="relu")(x)
+        x = tf.keras.layers.Conv2D(filters=num_channels,
+                                    kernel_size=1,
+                                    padding="same",
+                                    activation="relu")(inputs)
+        x = tf.keras.layers.Conv2D(filters=num_channels,
+                                    kernel_size=kernel_size,
+                                    padding="same",
+                                    activation="relu")(x)
         x = tf.keras.layers.Conv2D(filters=num_channels, kernel_size=1, padding="same")(x)
         x = tf.keras.layers.Add()([x, inputs])
         x = tf.keras.layers.Activation("relu")(x)
