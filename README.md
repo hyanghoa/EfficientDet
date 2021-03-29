@@ -9,3 +9,5 @@ EfficientNet review
 (https://hcshin.tistory.com/4)  
 EfficientNet code  
 (https://jsc5565.tistory.com/9)  
+Pytorch modeling
+(https://wikidocs.net/63618)
