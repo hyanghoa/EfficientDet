@@ -6,7 +6,16 @@ class EfficientNetB0(tf.keras.Model):
     def __init__(self):
         super(EfficientNetB0, self).__init__()
 
+    def build(self, input_shape):
+        self.w = self.add_weight(shape=(input_shape[-1], 1),
+                                initializer='random_normal',
+                                trainable=True)
+        self.b = self.add_weight(shape=(1,),
+                                initializer='random_normal',
+                                trainable=True)
+
     def call(self, input_tensor, training=False):
+        input_tensor = tf.matmul(input_tensor, self.w) + self.b
         x = tf.keras.layers.Conv2D(filters=32,
                                     kernel_size=3,
                                     padding="same",
