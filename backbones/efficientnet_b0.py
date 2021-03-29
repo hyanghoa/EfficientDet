@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.python.ops.gen_math_ops import xdivy_eager_fallback
+
 
 class EfficientNetB0(tf.keras.Model):
 
