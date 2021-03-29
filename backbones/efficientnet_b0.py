@@ -7,7 +7,10 @@ class EfficientNetB0(tf.keras.Model):
         super(EfficientNetB0, self).__init__()
 
     def call(self, input_tensor, training=False):
-        x = tf.keras.layers.Conv2D(filters=32, kernel_size=(3, 3), padding="same", activation="relu")(input_tensor)
+        x = tf.keras.layers.Conv2D(filters=32,
+                                    kernel_size=3,
+                                    padding="same",
+                                    activation="relu")(input_tensor)
         x = tf.keras.layers.BatchNormalization()(x)
         x = tf.keras.layers.MaxPool2D(padding="same")(x)
         x = self.mbconv(x, num_channels=32, output_channels=16, kernel_size=3)
